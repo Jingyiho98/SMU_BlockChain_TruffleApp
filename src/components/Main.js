@@ -17,7 +17,7 @@ class Main extends Component {
           <tbody>
             <tr>
               <td>{window.web3.utils.fromWei(this.props.stakingBalance, 'Ether')} mDAI</td>
-              <td>{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</td>
+              <td>{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} DAPP</td>
             </tr>
           </tbody>
         </table>
@@ -28,10 +28,15 @@ class Main extends Component {
 
             <form className="mb-3" onSubmit={(event) => {
                 event.preventDefault()
-                let amount
-                amount = this.input.value.toString() //here a
-                amount = window.web3.utils.toWei(amount, 'Ether')
-                this.props.stakeTokens(amount)
+                // let amountfirstbox
+                // amountfirstbox = this.input.value.toString() //here a
+                // amountfirstbox = window.web3.utils.toWei(amountfirstbox, 'Ether')
+                // this.props.stakeTokens(amountfirstbox)
+                console.log("here")
+                let res = this.menu.value;
+                console.log(res)
+                console.log(this.input2.value)
+                
               }}>
               <div>
                 <label className="float-left"><b>Stake Tokens</b></label>
@@ -39,6 +44,8 @@ class Main extends Component {
                   Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
                 </span>
               </div>
+              
+              {/* first box currency */}
               <div className="input-group mb-4">
                 <input
                   type="text"
@@ -47,10 +54,36 @@ class Main extends Component {
                   placeholder="0"
                   required />
                 <div className="input-group-append">
-                  <div className="input-group-text">
-                    <img src={dai} height='32' alt=""/>
-                    &nbsp;&nbsp;&nbsp; mDAI
-                  </div>
+                <select id = "dropdown" ref = {(input)=> this.menu = input}>
+    <option value="N/A">N/A</option>
+    <option value="1">SGDF</option>
+    <option value="2">RM</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select>
+                </div>
+              </div>
+
+              {/* this is the down arrow */}
+              <img src = {require("./assets/images/coin.png")} width="20" height="21" /> 
+
+        
+        {/* second box currency */}
+              <div className="input-group mb-4"> 
+                <input
+                  type="text"
+                  ref={(input2) => { this.input2 = input2 }} //here a
+                  className="form-control form-control-lg"
+                  placeholder="0"
+                  required />
+                <div className="input-group-append">
+                                  <select id = "dropdown" ref = {(input)=> this.input2 = input}>
+                    <option value="N/A">N/A</option>
+                    <option value="1">SGDF</option>
+                    <option value="2">RM</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
                 </div>
               </div>
               <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE!</button>
