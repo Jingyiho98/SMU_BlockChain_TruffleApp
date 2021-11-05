@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import dai from '../dai.png'
+// import dai from '../dai.png'
 
 class Main extends Component {
 
   render() {
     return (
-      <div id="content" className="mt-3">
-
+       <div id="content" className="mt-3">
         <table className="table table-borderless text-muted text-center">
           <thead>
             <tr>
@@ -54,18 +53,22 @@ class Main extends Component {
                   placeholder="0"
                   required />
                 <div className="input-group-append">
-                <select id = "dropdown" ref = {(input)=> this.menu = input}>
-    <option value="N/A">N/A</option>
-    <option value="1">SGDF</option>
-    <option value="2">RM</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-</select>
+                <select id = "dropdown" ref = {(input)=> this.menu = input} className="form-select form-select-lg mb-3">
+                  <option value="N/A">N/A</option>
+                  <option value="SGDF">SGDF</option>
+                  <option value="PHPF">PHPF</option>
+                  <option value="BDTF">BDTF</option>
+                </select>
                 </div>
               </div>
 
               {/* this is the down arrow */}
-              <img src = {require("./assets/images/coin.png")} width="20" height="21" /> 
+              <div class="d-flex flex-wrap align-items-center justify-content-center">
+            {/* <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> */}
+
+                <img src = {require("./assets/images/down-arrow.png")} width="20" height="21" alt= "" /> 
+              </div>
+              <br></br>
 
         
         {/* second box currency */}
@@ -77,16 +80,15 @@ class Main extends Component {
                   placeholder="0"
                   required />
                 <div className="input-group-append">
-                                  <select id = "dropdown" ref = {(input)=> this.input2 = input}>
+                                  <select id = "dropdown" ref = {(input)=> this.input2 = input} className="form-select form-select-lg mb-3">
                     <option value="N/A">N/A</option>
-                    <option value="1">SGDF</option>
-                    <option value="2">RM</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option value="SGDF">SGDF</option>
+                    <option value="PHPF">PHPF</option>
+                    <option value="BDTF">BDTF</option>
                 </select>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE!</button>
+              <button type="submit" className="btn btn-success btn-block btn-lg">STAKE!</button>
             </form>
             <button
               type="submit"
@@ -101,7 +103,7 @@ class Main extends Component {
         </div>
 
       </div>
-    );
+    )
   }
 }
 
