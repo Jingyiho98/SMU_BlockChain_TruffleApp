@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import dai from '../dai.png'
+// import dai from '../dai.png'
 
 class Main extends Component {
 
   render() {
     return (
-      <div id="content" className="mt-3">
-
+       <div id="content" className="mt-3">
         <table className="table table-borderless text-muted text-center">
           <thead>
             <tr>
@@ -17,7 +16,7 @@ class Main extends Component {
           <tbody>
             <tr>
               <td>{window.web3.utils.fromWei(this.props.stakingBalance, 'Ether')} mDAI</td>
-              <td>{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</td>
+              <td>{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} DAPP</td>
             </tr>
           </tbody>
         </table>
@@ -28,10 +27,15 @@ class Main extends Component {
 
             <form className="mb-3" onSubmit={(event) => {
                 event.preventDefault()
-                let amount
-                amount = this.input.value.toString() //here a
-                amount = window.web3.utils.toWei(amount, 'Ether')
-                this.props.stakeTokens(amount)
+                // let amountfirstbox
+                // amountfirstbox = this.input.value.toString() //here a
+                // amountfirstbox = window.web3.utils.toWei(amountfirstbox, 'Ether')
+                // this.props.stakeTokens(amountfirstbox)
+                console.log("here")
+                let res = this.menu.value;
+                console.log(res)
+                console.log(this.input2.value)
+                
               }}>
               <div>
                 <label className="float-left"><b>Stake Tokens</b></label>
@@ -39,6 +43,8 @@ class Main extends Component {
                   Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
                 </span>
               </div>
+              
+              {/* first box currency */}
               <div className="input-group mb-4">
                 <input
                   type="text"
@@ -47,13 +53,42 @@ class Main extends Component {
                   placeholder="0"
                   required />
                 <div className="input-group-append">
-                  <div className="input-group-text">
-                    <img src={dai} height='32' alt=""/>
-                    &nbsp;&nbsp;&nbsp; mDAI
-                  </div>
+                <select id = "dropdown" ref = {(input)=> this.menu = input} className="form-select form-select-lg mb-3">
+                  <option value="N/A">N/A</option>
+                  <option value="SGDF">SGDF</option>
+                  <option value="PHPF">PHPF</option>
+                  <option value="BDTF">BDTF</option>
+                </select>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE!</button>
+
+              {/* this is the down arrow */}
+              <div class="d-flex flex-wrap align-items-center justify-content-center">
+            {/* <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> */}
+
+                <img src = {require("./assets/images/down-arrow.png")} width="20" height="21" alt= "" /> 
+              </div>
+              <br></br>
+
+        
+        {/* second box currency */}
+              <div className="input-group mb-4"> 
+                <input
+                  type="text"
+                  ref={(input2) => { this.input2 = input2 }} //here a
+                  className="form-control form-control-lg"
+                  placeholder="0"
+                  required />
+                <div className="input-group-append">
+                                  <select id = "dropdown" ref = {(input)=> this.input2 = input} className="form-select form-select-lg mb-3">
+                    <option value="N/A">N/A</option>
+                    <option value="SGDF">SGDF</option>
+                    <option value="PHPF">PHPF</option>
+                    <option value="BDTF">BDTF</option>
+                </select>
+                </div>
+              </div>
+              <button type="submit" className="btn btn-success btn-block btn-lg">STAKE!</button>
             </form>
             <button
               type="submit"
@@ -68,7 +103,7 @@ class Main extends Component {
         </div>
 
       </div>
-    );
+    )
   }
 }
 
