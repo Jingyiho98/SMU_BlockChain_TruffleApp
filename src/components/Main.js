@@ -57,14 +57,17 @@ class Main extends Component {
         <table className="table table-borderless text-muted text-center">
           <thead>
             <tr>
-              <th scope="col">Staking Balance</th>
-              <th scope="col">Reward Balance</th>
+              <th scope="col">SGDF Balance</th>
+              <th scope="col">PHPF Balance</th>
+              <th scope="col">BDTF Balance</th>
+
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} mDAI</td>
               <td>{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</td>
+              <td>{window.web3.utils.fromWei(this.props.bdtfTokenBalance, 'Ether')} BDTF</td>
             </tr>
           </tbody>
         </table>
@@ -80,13 +83,27 @@ class Main extends Component {
                 let token2= this.menu2.value
                 let exchangeRate
                 let amountToSend
+                // dai to dapp
                 if( token1 === "dai" && token2 === "dapp"){
                   exchangeRate = parseFloat(document.getElementById("apiRates").innerHTML)
                   amountToSend = parseInt(amountfirstbox) * exchangeRate
 
                 }
+                // dapp to dai
                 if( token1 === "dapp" && token2 === "dai"){
                   exchangeRate = parseFloat(document.getElementById("apiRates").innerHTML)
+                  amountToSend = parseInt(amountfirstbox) / exchangeRate
+
+                }
+                // dai to bdtf
+                if( token1 === "dai" && token2 === "bdtf"){
+                  exchangeRate = parseFloat(document.getElementById("apiRates2").innerHTML)
+                  amountToSend = parseInt(amountfirstbox) * exchangeRate
+
+                }
+                // bdtf to dai
+                if( token1 === "bdtf" && token2 === "dai"){
+                  exchangeRate = parseFloat(document.getElementById("apiRates2").innerHTML)
                   amountToSend = parseInt(amountfirstbox) / exchangeRate
 
                 }
@@ -130,7 +147,7 @@ class Main extends Component {
                   <option disabled>Select</option>
                   <option value= "dai" >DAI</option>
                   <option value="dapp">DAPP</option>
-                  <option value="BDTF">BDTF</option>
+                  <option value="bdtf">BDTF</option>
                 </select>
                 </div>
 
@@ -161,7 +178,7 @@ class Main extends Component {
                     <select id = "dropdown2" ref = {(input)=> this.menu2 = input} className="form-select form-select-lg mb-3">
                     <option value="dai">DAI</option>
                     <option value="dapp" selected>DAPP</option>
-                    <option value="BDTF">BDTF</option>
+                    <option value="bdtf">BDTF</option>
                 </select>
                 </div>
               </div>

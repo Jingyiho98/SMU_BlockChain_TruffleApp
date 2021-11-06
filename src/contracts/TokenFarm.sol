@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 //pull Src code of the two token into this file
 import "./DappToken.sol";
 import "./DaiToken.sol";
-import "./BDTFToken.sol";
+import "./BdtfToken.sol";
 
 
 //assume both tokens has been deployed into the network
@@ -18,19 +18,19 @@ contract TokenFarm {
     //state variable -- global var
     DappToken public dappToken;
     DaiToken public daiToken;
-    // BDTFToken public bdtfToken;
+    BdtfToken public bdtfToken;
 
     address[] public stakers;
     mapping(address => uint256) public stakingBalance;
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaking;
 
-    constructor(DappToken _dappToken, DaiToken _daiToken) public {
+    constructor(DappToken _dappToken, DaiToken _daiToken, BdtfToken _bdtfToken) public {
         //get address from both deployed tokens (where they are located) and pass them into SC tokenfarm whenever its created
         //assign into state variable
         dappToken = _dappToken;
         daiToken = _daiToken;
-        // BDTFToken = _bdtfToken;
+        bdtfToken = _bdtfToken;
         owner = msg.sender;
     }
 
@@ -47,6 +47,9 @@ contract TokenFarm {
         if (keccak256(abi.encodePacked(_type)) == keccak256(abi.encodePacked("dapp"))){
             dappToken.transferFrom(msg.sender, address(this), _amount);
         }
+        if (keccak256(abi.encodePacked(_type)) == keccak256(abi.encodePacked("bdtf"))){
+            bdtfToken.transferFrom(msg.sender, address(this), _amount);
+        }
 
         // exchanged
         if (keccak256(abi.encodePacked(_typeto)) == keccak256(abi.encodePacked("dapp"))){
@@ -54,6 +57,9 @@ contract TokenFarm {
         }
         if (keccak256(abi.encodePacked(_typeto)) == keccak256(abi.encodePacked("dai"))){
             daiToken.transfer(msg.sender, _currency);
+        }
+        if (keccak256(abi.encodePacked(_typeto)) == keccak256(abi.encodePacked("bdtf"))){
+            bdtfToken.transfer(msg.sender, _currency);
         }
         //xfer Mock Dai tokens to this SC
         //msg is a global var... sender is whoever initiated that function

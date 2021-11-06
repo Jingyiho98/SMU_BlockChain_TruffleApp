@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
-contract BDTFToken {
-    string public name = "BDTF Token";
+contract BdtfToken {
+    string public name = "Bangladesh Forest";
     string public symbol = "BDTF";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
     uint8 public decimals = 18;
