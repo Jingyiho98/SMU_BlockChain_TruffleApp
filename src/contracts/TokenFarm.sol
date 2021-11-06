@@ -3,6 +3,8 @@ pragma solidity ^0.5.0;
 //pull Src code of the two token into this file
 import "./DappToken.sol";
 import "./DaiToken.sol";
+import "./BDTFToken.sol";
+
 
 //assume both tokens has been deployed into the network
 
@@ -16,6 +18,7 @@ contract TokenFarm {
     //state variable -- global var
     DappToken public dappToken;
     DaiToken public daiToken;
+    // BDTFToken public bdtfToken;
 
     address[] public stakers;
     mapping(address => uint256) public stakingBalance;
@@ -27,30 +30,71 @@ contract TokenFarm {
         //assign into state variable
         dappToken = _dappToken;
         daiToken = _daiToken;
+        // BDTFToken = _bdtfToken;
         owner = msg.sender;
     }
 
     //1. stake tokens (Deposit) //xfer money from investor to the TokenFarm SC
-    function stakeTokens(uint256 _amount) public {
+    // CHANGE THIS FUNCTION TO EXCHANGE
+    function stakeTokens(uint256 _amount,  string memory _type, uint256 _currency, string memory _typeto) public {
         //error handling
-
         require(_amount > 0, "amount cannot be 0");
-
-        //xfer Mock Dai tokens to this SC
-        //msg is a global var... sender is whoever initiated that function
-        daiToken.transferFrom(msg.sender, address(this), _amount);
-
-        //Update staking balance
-        stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
-
-        //add user to staker array *only if they havent stake already //dont think this is needed
-        if (!hasStaked[msg.sender]) {
-            stakers.push(msg.sender);
+       
+        // deposit
+        if (keccak256(abi.encodePacked(_type)) == keccak256(abi.encodePacked("dai"))){
+            daiToken.transferFrom(msg.sender, address(this), _amount);
+        }
+        if (keccak256(abi.encodePacked(_type)) == keccak256(abi.encodePacked("dapp"))){
+            dappToken.transferFrom(msg.sender, address(this), _amount);
         }
 
-        //update staking status //dont think this is needed
-        isStaking[msg.sender] = true;
-        hasStaked[msg.sender] = true;
+        // exchanged
+        if (keccak256(abi.encodePacked(_typeto)) == keccak256(abi.encodePacked("dapp"))){
+            dappToken.transfer(msg.sender, _currency);
+        }
+        if (keccak256(abi.encodePacked(_typeto)) == keccak256(abi.encodePacked("dai"))){
+            daiToken.transfer(msg.sender, _currency);
+        }
+        //xfer Mock Dai tokens to this SC
+        //msg is a global var... sender is whoever initiated that function
+        // deposit
+        // if (_type == "dai"){
+        //     daiToken.transferFrom(msg.sender, address(this), _amount);
+        // }
+        // if (_type == "dapp"){
+        //     dappToken.transferFrom(msg.sender, address(this), _amount);
+        // }
+
+        // if (_typeto == "dapp"){
+        //     dappToken.transfer(msg.sender, _currency);
+        // }
+        // if (_typeto == "dai"){
+        //     daiToken.transfer(msg.sender, _currency);
+        // }
+        // if (_type == "dapp"){
+        //     dappToken.transfer(msg.sender, amtSend);
+        // }
+
+
+
+
+        // if (_type == "dapp") {
+        // if (_type == "php") {
+        
+
+
+        //Update staking balance
+        // stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
+
+        //add user to staker array *only if they havent stake already //dont think this is needed
+        // if (!hasStaked[msg.sender]) {
+        //     stakers.push(msg.sender);
+        // }
+
+        // //update staking status //dont think this is needed
+        // isStaking[msg.sender] = true;
+        // hasStaked[msg.sender] = true;
+        // exchangeToken(_amount);
     }
 
     //2. unstaking tokens (Withdraw)
@@ -68,6 +112,12 @@ contract TokenFarm {
         hasStaked[msg.sender] = false;
     }
 
+    // function exchangeToken(_amount) public {
+    //     // require(msg.sender == owner, "caller must be owner");
+    //     dappToken.transfer(msg.sender, _amount);
+
+  
+    // }
     //3. issuing tokens (-- give it to another account here )
     function issueTokens() public {
         require(msg.sender == owner, "caller must be owner");

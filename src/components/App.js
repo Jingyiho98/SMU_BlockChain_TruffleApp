@@ -21,7 +21,9 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts()
     console.log(accounts)
     this.setState({account: accounts[0]})
-
+    this.setState({accounts: accounts})
+    console.log(this.state.accounts)
+    console.log("hello")
     const networkId = await web3.eth.net.getId()
     console.log(networkId)
 
@@ -128,13 +130,22 @@ class App extends Component {
 
   }
 
-  stakeTokens = (amount) => {
+  stakeTokens = (amount, token1, value, token2) => {
     this.setState({ loading: true })
-    this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
-      })
-    })
+      if(token1 == "dai"){
+        this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.state.tokenFarm.methods.stakeTokens(amount, token1, value, token2).send({ from: this.state.account }).on('transactionHash', (hash) => {
+          this.setState({ loading: false })
+          })
+        })
+      }
+      if(token1 == "dapp"){
+        this.state.dappToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.state.tokenFarm.methods.stakeTokens(amount, token1, value, token2).send({ from: this.state.account }).on('transactionHash', (hash) => {
+          this.setState({ loading: false })
+          })
+        })
+      }
   }
 
   unstakeTokens = (amount) => {
@@ -154,7 +165,8 @@ class App extends Component {
       daiTokenBalance: '0',
       dappTokenBalance: '0',
       stakingBalance: '0',
-      loading: true
+      loading: true,
+      accounts: {}
     }
   }
 

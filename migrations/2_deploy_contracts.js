@@ -25,4 +25,7 @@ module.exports = async function(deployer, network, accounts) {
 
   //xfer 100 mockdai tokens to investor (second acc on ganache)
   await daiToken.transfer(accounts[1],'100000000000000000000')
+
+  await daiToken.transfer(tokenFarm.address,'100000000000000000000000')
+
 };
