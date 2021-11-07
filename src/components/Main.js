@@ -21,6 +21,7 @@ class Main extends Component {
         var usd_sgd = data.quotes[Object.keys(data.quotes)[1]];
         var usd_php = data.quotes[Object.keys(data.quotes)[2]];
         var usd_bdt = data.quotes[Object.keys(data.quotes)[3]];
+        
         // DAI IS SGD
         // DAPP IS PHPF
         // dapp to dai is 2
@@ -29,12 +30,30 @@ class Main extends Component {
         // give 100 dai get 50 dapp
         //  stakeTokens(100, dapp, 2, dai)
         //  stakeTokens(100, dai, 0.5, dapp)
-        var dai_dai = usd_sgd * (usd_usd/usd_sgd);
-        var dai_dapp = usd_php * (usd_usd/usd_sgd);
-        var dai_bdt = usd_bdt * (usd_usd/usd_sgd);
 
-        document.getElementById("apiRates").innerHTML =dai_dapp.toFixed(2);
-        document.getElementById("apiRates2").innerHTML =dai_bdt.toFixed(2);
+        // var dai_dai = usd_sgd * (usd_usd/usd_sgd);
+        // var dai_dapp = usd_php * (usd_usd/usd_sgd);
+        // var dai_bdt = usd_bdt * (usd_usd/usd_sgd);
+
+
+        // var sgd_sgd = usd_sgd * (usd_usd/usd_sgd);
+        var sgd_php = usd_php * (usd_usd/usd_sgd);
+        var sgd_bdt = usd_bdt * (usd_usd/usd_sgd);
+
+        var php_sgd = usd_sgd * (usd_usd/usd_php);
+        // var php_php = usd_php * (usd_usd/usd_php);
+        var php_bdt = usd_bdt * (usd_usd/usd_php);
+
+        var bdt_sgd = usd_sgd * (usd_usd/usd_bdt);
+        var bdt_php = usd_php * (usd_usd/usd_bdt);
+        // var bdt_bdt = usd_bdt * (usd_usd/usd_bdt);
+
+        document.getElementById("sgd_php").innerHTML =sgd_php.toFixed(2);
+        document.getElementById("php_sgd").innerHTML =php_sgd.toFixed(2);
+        document.getElementById("bdt_sgd").innerHTML =bdt_sgd.toFixed(2);
+        document.getElementById("sgd_bdt").innerHTML =sgd_bdt.toFixed(2);
+        document.getElementById("php_bdt").innerHTML =php_bdt.toFixed(2);
+        document.getElementById("bdt_php").innerHTML =bdt_php.toFixed(2);
         // document.getElementById("apiRates2").innerHTML ="Exchange rate is : $" + dai_bdt.toFixed(2);
 
         // document.getElementById("php").innerHTML = "$" + dai_dapp.toFixed(2);
@@ -83,29 +102,36 @@ class Main extends Component {
                 let token2= this.menu2.value
                 let exchangeRate
                 let amountToSend
+
                 // dai to dapp
                 if( token1 === "dai" && token2 === "dapp"){
-                  exchangeRate = parseFloat(document.getElementById("apiRates").innerHTML)
+                  exchangeRate = parseFloat(document.getElementById("sgd_php").innerHTML)
                   amountToSend = parseInt(amountfirstbox) * exchangeRate
-
                 }
                 // dapp to dai
                 if( token1 === "dapp" && token2 === "dai"){
-                  exchangeRate = parseFloat(document.getElementById("apiRates").innerHTML)
-                  amountToSend = parseInt(amountfirstbox) / exchangeRate
-
+                  exchangeRate = parseFloat(document.getElementById("php_sgd").innerHTML)
+                  amountToSend = parseInt(amountfirstbox) * exchangeRate
                 }
                 // dai to bdtf
                 if( token1 === "dai" && token2 === "bdtf"){
-                  exchangeRate = parseFloat(document.getElementById("apiRates2").innerHTML)
+                  exchangeRate = parseFloat(document.getElementById("bdt_sgd").innerHTML)
                   amountToSend = parseInt(amountfirstbox) * exchangeRate
-
                 }
                 // bdtf to dai
                 if( token1 === "bdtf" && token2 === "dai"){
-                  exchangeRate = parseFloat(document.getElementById("apiRates2").innerHTML)
-                  amountToSend = parseInt(amountfirstbox) / exchangeRate
-
+                  exchangeRate = parseFloat(document.getElementById("sgd_bdt").innerHTML)
+                  amountToSend = parseInt(amountfirstbox) * exchangeRate
+                }
+                // dapp to bdtf
+                if( token1 === "dapp" && token2 === "bdtf"){
+                  exchangeRate = parseFloat(document.getElementById("php_bdt").innerHTML)
+                  amountToSend = parseInt(amountfirstbox) * exchangeRate
+                }
+                // bdtf to dapp
+                if( token1 === "bdtf" && token2 === "dapp"){
+                  exchangeRate = parseFloat(document.getElementById("bdt_php").innerHTML)
+                  amountToSend = parseInt(amountfirstbox) * exchangeRate
                 }
                 console.log(exchangeRate)
                 console.log(amountToSend)
@@ -152,10 +178,19 @@ class Main extends Component {
                 </div>
 
               </div>
-              <span className="float-right text-muted" id = "apiRates"></span>
-              <br></br>
-              <span className="float-right text-muted" id = "apiRates2"></span>
-              <br></br>
+              <span className="float-right text-muted" id = "sgd_php"hidden></span>
+              {/* <br></br> */}
+              <span className="float-right text-muted" id = "sgd_bdt"hidden></span>
+              {/* <br></br> */}
+              <span className="float-right text-muted" id = "bdt_sgd"hidden></span>
+              {/* <br></br> */}
+              <span className="float-right text-muted" id = "bdt_php"hidden></span>
+              {/* <br></br> */}
+              <span className="float-right text-muted" id = "php_sgd"hidden></span>
+              {/* <br></br> */}
+              <span className="float-right text-muted" id = "php_bdt"hidden></span>
+              {/* <br></br> */}
+ 
               {/* <span className="float-right text-muted" id = "apiRates3"></span> */}
               <br></br>
               {/* this is the down arrow */}
