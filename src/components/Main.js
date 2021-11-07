@@ -72,30 +72,42 @@ class Main extends Component {
  
   render() {
     return (
-       <div id="content" className="mt-3">
-        <table className="table table-borderless text-muted text-center">
-          <thead>
-            <tr>
-              <th scope="col">SGDF Balance</th>
-              <th scope="col">PHPF Balance</th>
-              <th scope="col">BDTF Balance</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} mDAI</td>
-              <td>{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</td>
-              <td>{window.web3.utils.fromWei(this.props.bdtfTokenBalance, 'Ether')} BDTF</td>
-            </tr>
-          </tbody>
-        </table>
         
-        <div className="card mb-4" >
+      <div id="content" className="mt-3">
+        <div class="row g-0 mb-4">
+          
+          <div class="card">    
+            <div class="card-body p-5">
+              <div class="d-flex justify-content-center">
+                <div>
+                  <p class="card-subtitle text-muted pb-2 text-center">Available Balance</p>
+                  <div class="d-flex justify-content-center align-items-center">
+                    <div class="mb-0">
+                    <table className="table table-borderless text-white text-center mb-0">
+                      <thead>
+                        <tr>
+                          <th scope="col"><p class="text-white card-subtitle px-2">SGDF BALANCE</p></th>
+                          <th scope="col"><p class="text-white card-subtitle px-2">PHPF BALANCE</p></th>
+                          <th scope="col"><p class="text-white card-subtitle px-2">BDTF BALANCE</p></th>
 
-          <div className="card-body">
-
-            <form className="mb-3" onSubmit={(event) => {
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} mDAI</label></td>
+                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</label></td>
+                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.bdtfTokenBalance, 'Ether')} BDTF</label></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form className="mb-3" onSubmit={(event) => {
                 event.preventDefault()
                 let amountfirstbox = this.input.value
                 let token1= this.menu.value
@@ -153,83 +165,105 @@ class Main extends Component {
                 // console.log(this.input2.value)
                 
               }}>
-              <div>
-                <label className="float-left"><b>Stake Tokens</b></label>
-                <span className="float-right text-muted">
-                  Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
-                </span>
-              </div>
-              
-              {/* first box currency */}
-              <div className="input-group mb-4">
-                <input
-                  type="text"
-                  ref={(input) => { this.input = input }} //here a
-                  className="form-control form-control-lg"
-                  placeholder="0"
-                  required />
-                <div className="input-group-append">
-                <select id = "dropdown" ref = {(input)=> this.menu = input} className="form-select form-select-lg mb-3">
-                  <option disabled>Select</option>
-                  <option value= "dai" >DAI</option>
-                  <option value="dapp">DAPP</option>
-                  <option value="bdtf">BDTF</option>
-                </select>
-                </div>
-
-              </div>
-              <span className="float-right text-muted" id = "sgd_php"hidden></span>
-              {/* <br></br> */}
-              <span className="float-right text-muted" id = "sgd_bdt"hidden></span>
-              {/* <br></br> */}
-              <span className="float-right text-muted" id = "bdt_sgd"hidden></span>
-              {/* <br></br> */}
-              <span className="float-right text-muted" id = "bdt_php"hidden></span>
-              {/* <br></br> */}
-              <span className="float-right text-muted" id = "php_sgd"hidden></span>
-              {/* <br></br> */}
-              <span className="float-right text-muted" id = "php_bdt"hidden></span>
-              {/* <br></br> */}
- 
-              {/* <span className="float-right text-muted" id = "apiRates3"></span> */}
-              <br></br>
-              {/* this is the down arrow */}
-              <div class="d-flex flex-wrap align-items-center justify-content-center">
-            {/* <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> */}
-
-                <img src = {require("./assets/images/down-arrow.png")} width="20" height="21" alt= "" /> 
-              </div>
-              <br></br>
-
-        
-        {/* second box currency */}
-              <div className="input-group mb-4"> 
-                <input
-                  type="text"
-                  className="form-control form-control-lg"
-                  placeholder="0"
-                  disabled />
-                <div className="input-group-append">
-                    <select id = "dropdown2" ref = {(input)=> this.menu2 = input} className="form-select form-select-lg mb-3">
-                    <option value="dai">DAI</option>
-                    <option value="dapp" selected>DAPP</option>
-                    <option value="bdtf">BDTF</option>
-                </select>
+        <div class="row g-0">
+        <div class="col">
+          <div class="card">    
+            <div class="card-body p-5">
+              <div class="d-flex">
+                <div>
+                  <p class="card-subtitle text-muted pb-2">From</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="mb-3">
+                    <label for="dropdown" class="form-label text-light">Token</label>
+                    <select id = "dropdown" ref = {(input)=> this.menu = input} className="form-select">
+                      <option disabled>Select</option>
+                      <option value= "dai">DAI</option>
+                      <option value="dapp">DAPP</option>
+                      <option value="bdtf">BDTF</option>
+                    </select>
+                    </div>
+                    <div class="mb-3">
+                    <label class="form-label text-light">Amount</label>
+                    <input
+                      type="text"
+                      ref={(input) => { this.input = input }} //here a
+                      className="form-control"
+                      placeholder="0"
+                      required />
+                    </div>
+                  </div>
+                  <p class="text-white card-subtitle" id="from-price">BALANCE: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}</p>
+                  <span className="float-right text-muted" id = "sgd_php"hidden></span>
+                  {/* <br></br> */}
+                  <span className="float-right text-muted" id = "sgd_bdt"hidden></span>
+                  {/* <br></br> */}
+                  <span className="float-right text-muted" id = "bdt_sgd"hidden></span>
+                  {/* <br></br> */}
+                  <span className="float-right text-muted" id = "bdt_php"hidden></span>
+                  {/* <br></br> */}
+                  <span className="float-right text-muted" id = "php_sgd"hidden></span>
+                  {/* <br></br> */}
+                  <span className="float-right text-muted" id = "php_bdt"hidden></span>
+                  {/* <br></br> */}
                 </div>
               </div>
-              <button type="submit" className="btn btn-success btn-block btn-lg">STAKE!</button>
-            </form>
-            <button
+            </div>
+          </div>
+        </div>
+        <div class="col-1 d-flex align-items-center justify-content-center">
+          <img src = {require("./assets/images/exchange.png")} width="20" height="20" alt= "" /> 
+        </div>
+        <div class="col">
+          <div class="card">    
+            <div class="card-body p-5">
+              <div class="d-flex">
+                <div>
+                  <p class="card-subtitle text-muted pb-2">Into</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="mb-3">
+                      <label for="dropdown2" class="form-label text-light">Token</label>
+                      <select id = "dropdown2" ref = {(input)=> this.menu2 = input} className="form-select">
+                        <option value="dai">DAI</option>
+                        <option value="dapp" selected>DAPP</option>
+                        <option value="bdtf">BDTF</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label text-light">Amount</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="0"
+                        disabled />
+
+                    </div>
+                  </div>
+                  <p class="text-white card-subtitle" id="from-price">&nbsp;</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-0 pt-4">
+        <div class="col d-flex align-items-center justify-content-center">
+          <button type="submit" className="btn btn-success px-4 py-2">STAKE!</button>
+        </div>
+      </div>
+      </form>
+      <div class="row g-0">
+        <div class="col d-flex align-items-center justify-content-center">
+          <button
               type="submit"
-              className="btn btn-link btn-block btn-sm"
+              className="btn btn-dark btn-sm px-4 py-2"
               onClick={(event) => {
                 event.preventDefault()
                 this.props.unstakeTokens()
               }}>
                 UN-STAKE...
               </button>
-          </div>
         </div>
+      </div>
 
       </div>
     )

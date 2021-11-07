@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
 import DappToken from '../abis/DappToken.json'
-import BdtfToken from '../abis/BdtfToken.json'
+import BdtfToken from '../abis/BDTFToken.json'
 import TokenFarm from '../abis/TokenFarm.json'
 // import Navbar from './Navbar'
 import Main from './Main'
@@ -243,7 +243,7 @@ class App extends Component {
 
               <div class="text-end d-flex align-items-center">
                 <a href="index.html" class="link-light pe-4 m-0">Tokens</a>
-                <a href="transfer.html" class="link-light pe-4 m-0">Transfer</a>
+                <a href="exchange.html" class="link-light pe-4 m-0">Exchange</a>
                 <button type="submit" className="btn btn-success px-4 py-2" 
                 onClick={(event) => {
                   event.preventDefault()
@@ -254,7 +254,9 @@ class App extends Component {
         </header>
     
         <body class="bg-dark d-flex align-items-center justify-content-center">
-          {content}
+          <main class="bg-dark d-flex align-items-center justify-content-center">
+            {content}
+          </main>
         </body>
       </div>
 
