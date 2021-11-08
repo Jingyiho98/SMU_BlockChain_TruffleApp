@@ -94,8 +94,8 @@ class Main extends Component {
                       </thead>
                       <tbody>
                         <tr>
-                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} mDAI</label></td>
-                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} DAPP</label></td>
+                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')} SGDF</label></td>
+                          <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.dappTokenBalance, 'Ether')} PHPF</label></td>
                           <td><label class="text-light mb-0">{window.web3.utils.fromWei(this.props.bdtfTokenBalance, 'Ether')} BDTF</label></td>
                         </tr>
                       </tbody>
@@ -127,12 +127,12 @@ class Main extends Component {
                 }
                 // dai to bdtf
                 if( token1 === "dai" && token2 === "bdtf"){
-                  exchangeRate = parseFloat(document.getElementById("bdt_sgd").innerHTML)
+                  exchangeRate = parseFloat(document.getElementById("sgd_bdt").innerHTML)
                   amountToSend = parseInt(amountfirstbox) * exchangeRate
                 }
                 // bdtf to dai
                 if( token1 === "bdtf" && token2 === "dai"){
-                  exchangeRate = parseFloat(document.getElementById("sgd_bdt").innerHTML)
+                  exchangeRate = parseFloat(document.getElementById("bdt_sgd").innerHTML)
                   amountToSend = parseInt(amountfirstbox) * exchangeRate
                 }
                 // dapp to bdtf
@@ -165,6 +165,8 @@ class Main extends Component {
                 // console.log(this.input2.value)
                 
               }}>
+
+
         <div class="row g-0">
         <div class="col">
           <div class="card">    
@@ -177,8 +179,8 @@ class Main extends Component {
                     <label for="dropdown" class="form-label text-light">Token</label>
                     <select id = "dropdown" ref = {(input)=> this.menu = input} className="form-select">
                       <option disabled>Select</option>
-                      <option value= "dai">DAI</option>
-                      <option value="dapp">DAPP</option>
+                      <option value= "dai">SGDF</option>
+                      <option value="dapp">PHPF</option>
                       <option value="bdtf">BDTF</option>
                     </select>
                     </div>
@@ -223,18 +225,19 @@ class Main extends Component {
                     <div class="mb-3">
                       <label for="dropdown2" class="form-label text-light">Token</label>
                       <select id = "dropdown2" ref = {(input)=> this.menu2 = input} className="form-select">
-                        <option value="dai">DAI</option>
-                        <option value="dapp" selected>DAPP</option>
+                        <option value="dai">SGDF</option>
+                        <option value="dapp" selected>PHPF</option>
                         <option value="bdtf">BDTF</option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label class="form-label text-light">Amount</label>
                       <input
+                        ref={(input) => { this.input1 = input }} //here a
                         type="text"
                         className="form-control"
                         placeholder="0"
-                        disabled />
+                        disabled/>
 
                     </div>
                   </div>
@@ -247,11 +250,56 @@ class Main extends Component {
       </div>
       <div class="row g-0 pt-4">
         <div class="col d-flex align-items-center justify-content-center">
-          <button type="submit" className="btn btn-success px-4 py-2">STAKE!</button>
+        <button type="submit" onClick={(event) => {
+            event.preventDefault()
+            var receive = this.input.value
+            var coin1 =  this.menu.value
+            var coin2 =  this.menu2.value
+            var exchangeRate
+            var estimatedRate
+            // dai to dapp
+            if( coin1 === "dai" && coin2 === "dapp"){
+              exchangeRate = parseFloat(document.getElementById("sgd_php").innerHTML)
+              estimatedRate = parseInt(receive) * exchangeRate
+            }
+            // dapp to dai
+            if( coin1 === "dapp" && coin2 === "dai"){
+              exchangeRate = parseFloat(document.getElementById("php_sgd").innerHTML)
+              estimatedRate = parseInt(receive) * exchangeRate
+            }
+            // dai to bdtf
+            if( coin1 === "dai" && coin2 === "bdtf"){
+              exchangeRate = parseFloat(document.getElementById("sgd_bdt").innerHTML)
+              estimatedRate = parseInt(receive) * exchangeRate
+            }
+            // bdtf to dai
+            if( coin1 === "bdtf" && coin2 === "dai"){
+              exchangeRate = parseFloat(document.getElementById("bdt_sgd").innerHTML)
+              estimatedRate = parseInt(receive) * exchangeRate
+            }
+            // dapp to bdtf
+            if( coin1 === "dapp" && coin2 === "bdtf"){
+              exchangeRate = parseFloat(document.getElementById("php_bdt").innerHTML)
+              estimatedRate = parseInt(receive) * exchangeRate
+            }
+            // bdtf to dapp
+            if( coin1 === "bdtf" && coin2 === "dapp"){
+              exchangeRate = parseFloat(document.getElementById("bdt_php").innerHTML)
+              estimatedRate = parseInt(receive) * exchangeRate
+            }
+            console.log(receive)
+            this.input1.value = estimatedRate
+
+            }} className="btn btn-success px-4 py-2">Check</button>
+        </div>
+      </div>
+      <div class="row g-0 pt-4">
+        <div class="col d-flex align-items-center justify-content-center">
+          <button type="submit" className="btn btn-success px-4 py-2">SWAP!</button>
         </div>
       </div>
       </form>
-      <div class="row g-0">
+      {/* <div class="row g-0">
         <div class="col d-flex align-items-center justify-content-center">
           <button
               type="submit"
@@ -263,7 +311,7 @@ class Main extends Component {
                 UN-STAKE...
               </button>
         </div>
-      </div>
+      </div> */}
 
       </div>
     )

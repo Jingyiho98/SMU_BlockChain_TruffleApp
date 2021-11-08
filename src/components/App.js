@@ -2,9 +2,19 @@ import React, { Component } from 'react'
 import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
 import DappToken from '../abis/DappToken.json'
-import BdtfToken from '../abis/BDTFToken.json'
+import BdtfToken from '../abis/BdtfToken.json'
 import TokenFarm from '../abis/TokenFarm.json'
 // import Navbar from './Navbar'
+import Transfer from './Transfer'
+import Home from './Home'
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 import Main from './Main'
 import './App.css'
 import { Helmet } from 'react-helmet';
@@ -91,7 +101,7 @@ class App extends Component {
     }
 
 
-    //test
+    // //test
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     console.log(accounts)
@@ -175,6 +185,30 @@ class App extends Component {
         })
       }
   }
+  P2P_Xfers = (amount, token1, ReceiverAddress) => {
+    this.setState({ loading: true })
+      if(token1 == "dai"){
+        this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.state.tokenFarm.methods.P2P_Xfers(amount, token1, ReceiverAddress).send({ from: this.state.account }).on('transactionHash', (hash) => {
+          this.setState({ loading: false })
+          })
+        })
+      }
+      if(token1 == "dapp"){
+        this.state.dappToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.state.tokenFarm.methods.P2P_Xfers(amount, token1, ReceiverAddress).send({ from: this.state.account }).on('transactionHash', (hash) => {
+          this.setState({ loading: false })
+          })
+        })
+      }
+      if(token1 == "bdtf"){
+        this.state.bdtfToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.state.tokenFarm.methods.P2P_Xfers(amount, token1, ReceiverAddress).send({ from: this.state.account }).on('transactionHash', (hash) => {
+          this.setState({ loading: false })
+          })
+        })
+      }
+  }
 
   unstakeTokens = (amount) => {
     this.setState({ loading: true })
@@ -203,7 +237,7 @@ class App extends Component {
     let content
     if(this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
-    } else {
+    } else if (window.location.pathname == "/exchange") {
       content = <Main
         daiTokenBalance={this.state.daiTokenBalance}
         dappTokenBalance={this.state.dappTokenBalance}
@@ -211,8 +245,23 @@ class App extends Component {
         stakingBalance={this.state.stakingBalance}
         stakeTokens={this.stakeTokens}
         unstakeTokens={this.unstakeTokens}
+
       />
+    }else if (window.location.pathname == "/transfer") {
+      content = <Transfer
+      daiTokenBalance={this.state.daiTokenBalance}
+      dappTokenBalance={this.state.dappTokenBalance}
+      bdtfTokenBalance={this.state.bdtfTokenBalance}
+      stakingBalance={this.state.stakingBalance}
+      stakeTokens={this.stakeTokens}
+      unstakeTokens={this.unstakeTokens}
+      P2P_Xfers={this.P2P_Xfers}
+      />
+    }else if (window.location.pathname == "/home") {
+      content = <Home/>
     }
+    
+
     return (
       <div style={{height:"100vh"}} class="album pb-5 bg-dark" >
         <Helmet>
@@ -228,29 +277,33 @@ class App extends Component {
 
           <meta name="theme-color" content="#000000" />
           
-          <title>Forrest</title>
+          <title>Fishy</title>
         </Helmet>
 
         <header class="p-4 bg-dark text-white border-bottom border-1">
           <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-              <a href="index.html" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <Router>
+              <Link to="/home" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" onClick={(event) => {
+                  this.loadWeb3()}}>
                 <img src={require("./assets/images/favicon.ico")} width="40" height="40" alt=""/>
-                <span class="fs-4 ps-2">Forrest Exchange</span>
-              </a>
+                <span class="fs-4 ps-2">Fishy Swap</span>
+              </Link>
+            </Router>
       
               <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"></ul>
-
-              <div class="text-end d-flex align-items-center">
-                <a href="index.html" class="link-light pe-4 m-0">Tokens</a>
-                <a href="exchange.html" class="link-light pe-4 m-0">Exchange</a>
+                <Router>
+                <Link to="/exchange" class="link-light pe-4 m-0"  onClick={(event) => {
+                  this.loadWeb3()}}>Exchange</Link>
+                <Link to="/transfer" class="link-light pe-4 m-0"  onClick={(event) => {
+                  this.loadWeb3()}}>Transfer</Link>
+                </Router>
                 <button type="submit" className="btn btn-success px-4 py-2" 
                 onClick={(event) => {
                   event.preventDefault()
                   this.loadWeb3()}}>Connect Wallet</button>
               </div>
             </div>
-          </div>
         </header>
     
         <body class="bg-dark d-flex align-items-center justify-content-center">
